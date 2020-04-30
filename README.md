@@ -17,18 +17,18 @@ Example of usage:
 
 from gb_rf_evolution import evolution
 
-params = { 'boosting_type'=['gbdt', 'dart'], 
-           'num_leaves'=[31, 41, 51], 
-           'learning_rate'=[0.1, 0.15, 0,2], 
-           'n_estimators'=[50, 100, 200], 
-           'subsample_for_bin'=[100000, 200000, 300000], 
-           'objective'=[regression],
-           'colsample_bytree'=[0.5, 0.7, 1.0], 
-           'n_job's=[-1],
-           'max_bin'=[100, 1000, 10000],
-           'num_iterations'=[100, 200, 300].
-           'extra_trees'=[True, False],
-           'reg_sqrt'=[True, False] }
+params = { 'boosting_type':['gbdt', 'dart'], 
+           'num_leaves':[31, 41, 51], 
+           'learning_rate':[0.1, 0.15, 0,2], 
+           'n_estimators':[50, 100, 200], 
+           'subsample_for_bin':[100000, 200000, 300000], 
+           'objective':[regression],
+           'colsample_bytree':[0.5, 0.7, 1.0], 
+           'n_job's:[-1],
+           'max_bin':[100, 1000, 10000],
+           'num_iterations':[100, 200, 300].
+           'extra_trees':[True, False],
+           'reg_sqrt':[True, False] }
 ```
 
 ```python
