@@ -1,12 +1,12 @@
 from setuptools import setup
 
-setup(name='neuro_evolution',
+setup(name='gb_rf_evolution',
       version='0.1',
-      description='Neuro-evolution wrapper for NN hyperparameter tuning',
-      url='https://github.com/subpath/neuro-evolution',
-      author='Alexander Osipenko',
-      author_email='subpath@ya.ru',
+      description='genetic algorithm for GB and RF hyperparameter tuning',
+      url='https://github.com/EvanBagis/gb_rf_evolution',
+      author='Evan Bagis',
+      author_email='evanbagis@gmail.com',
       license='MIT',
-      packages=['neuro_evolution'],
-      install_requires=['tqdm', 'numpy', 'logger', 'keras'],
+      packages=['gb_rf_evolution'],
+      install_requires=['tqdm', 'numpy', 'logger', 'lgb'],
       zip_safe=False)
