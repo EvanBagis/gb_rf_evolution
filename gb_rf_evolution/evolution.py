@@ -33,8 +33,9 @@ class gb_rf_evolution:
         optimizer = Optimizer(self._params)
         self._networks = list(optimizer.create_population(self._population))
 
+        models = []
         for i in range(self._generations - 1):
-            models = self._train_networks(x_train, y_train, x_test, y_test)
+            self._train_networks(x_train, y_train, x_test, y_test)
             self._networks = optimizer.evolve(self._networks)
 
         self._networks = sorted(self._networks, key=lambda x: x.accuracy, reverse=True)
@@ -51,14 +52,14 @@ class gb_rf_evolution:
         :param y_test array: array with real values for test
         :return: None
         """
-        models = []
+        
         pbar = tqdm(total=len(self._networks))
         for network in self._networks:
             model = network.train(x_train, y_train, x_test, y_test)
             pbar.update(1)
             models.append(model)
         pbar.close()
-        return models
+        
 
     def _get_average_accuracy(self, networks):
         """
