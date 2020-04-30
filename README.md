@@ -25,6 +25,7 @@ params = { 'boosting_type'=['gbdt', 'dart'],
            'objective'=[regression],
            'colsample_bytree'=[0.5, 0.7, 1.0], 
            'n_job's=[-1],
+           'max_bin'=[100, 1000, 10000],
            'num_iterations'=[100, 200, 300].
            'extra_trees'=[True, False],
            'reg_sqrt'=[True, False] }
