@@ -1,39 +1,24 @@
-from keras.models import Sequential
-from keras.layers import Dense, Dropout
-from keras.callbacks import EarlyStopping
+import lightgbm as lgb
+import xgboost as xgb
 
-early_stopper = EarlyStopping(patience=5)
-
-
-def compile_model(network, input_shape):
+def compile_model(network):
     """
-
     :param network dict: dictionary with network parameters
-    :param input_shape tuple: tuple with tradin data shape
     :return: compiled model
     """
 
-    nb_layers = network.get('n_layers', 2)
-    nb_neurons = network.get('n_neurons', 10)
-    activation = network.get('activations', 'sigmoid')
-    optimizer = network.get('optimizers', 'adam')
-
-    model = Sequential()
-
-    model.add(Dense(nb_neurons, activation=activation, input_shape=input_shape))
-    model.add(Dropout(network.get('dropout', 1)))
-    for i in range(nb_layers - 1):
-        model.add(Dense(nb_neurons, activation=activation))
-        model.add(Dropout(network.get('dropout', 1)))
-
-    model.add(Dense(
-        network.get('last_layer_neurons', 1),
-        activation=network.get('last_layer_activations', 'sigmoid'),
-    ))
-
-    model.compile(loss=network.get('losses', 'binary_crossentropy'), optimizer=optimizer,
-                  metrics=[network.get('mertics', 'accuracy')])
-
+    
+    model = lgb.LGBMRegressor(num_leaves=network.get('num_leaves', 31),
+                             learning_rate=network.get('learning_rate', 0.1),
+                             n_estimators=network.get('n_estimators', 20),
+                             max_bin=network.get('max_bin', 1000),
+                             colsample_bytree=network.get('colsample_bytree', 0.5),
+                             subsample_for_bin=network.get('subsample_for_bin', 200000),
+                             boosting_type=network.get('boosting_type', 'gbdt'),
+                             num_iterations=network.get('num_iterations', 100),
+                             extra_trees=network.get('extra_trees', False),
+                             reg_sqrt= network.get('reg_sqrt', False))
+    
     return model
 
 
@@ -48,15 +33,16 @@ def train_and_score(network, x_train, y_train, x_test, y_test):
     :return float: score
     """
 
-    model = compile_model(network, (x_train.shape[1],))
+    model = compile_model(network)
 
-    model.fit(x_train, y_train,
-              batch_size=network.get('batch_size', 128),
-              epochs=10000,  # using early stopping, so no real limit
-              verbose=network.get('verbose', 0),
-              validation_data=(x_test, y_test),
-              callbacks=[early_stopper])
+    model.fit(x_train, y_train)
 
-    score = model.evaluate(x_test, y_test, verbose=0)
+    y_pred = model.predict(np.array(x_test))
+    y_pred = np.concatenate(y_pred)
 
-    return score[1]  # 1 is accuracy. 0 is loss.
+    true = y_test
+    pred =  y_pred
+
+    print(' R2 = ', r2_score(true, pred))
+    
+    return r2_score(true, pred), model
