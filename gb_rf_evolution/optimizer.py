@@ -14,7 +14,6 @@ class Optimizer:
     def __init__(self, nn_param_choices, retain=0.4,
                  random_select=0.1, mutate_chance=0.2):
         """
-
         :param nn_param_choices dict: dictionary with NN parameters
         :param retain float: retain rate per population
         :param random_select float: random selection rate
@@ -102,7 +101,6 @@ class Optimizer:
         Evolve a population of networks.
         :param pop list:  A list of network parameters
         :return list: The evolved population of networks
-
         """
         # Get scores for each network.
         graded = [(self.fitness(network), network) for network in pop]
