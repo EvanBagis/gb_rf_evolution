@@ -42,7 +42,7 @@ def train_and_score(network, x_train, y_train, x_test, y_test):
     model.fit(x_train, y_train)
 
     y_pred = model.predict(np.array(x_test))
-    y_pred = np.concatenate(y_pred)
+    
 
     true = y_test
     pred =  y_pred
