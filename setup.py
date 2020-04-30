@@ -8,5 +8,5 @@ setup(name='gb_rf_evolution',
       author_email='evanbagis@gmail.com',
       license='MIT',
       packages=['gb_rf_evolution'],
-      install_requires=['tqdm', 'numpy', 'logger', 'lgb'],
+      install_requires=['tqdm', 'numpy', 'logger'],
       zip_safe=False)
