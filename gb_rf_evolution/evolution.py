@@ -29,19 +29,19 @@ class NeuroEvolution:
         :param x_test array: array with features for test
         :param y_test array: array with real values for test
         :return: None
-
         """
         optimizer = Optimizer(self._params)
         self._networks = list(optimizer.create_population(self._population))
 
         for i in range(self._generations - 1):
-            self._train_networks(x_train, y_train, x_test, y_test)
+            models = self._train_networks(x_train, y_train, x_test, y_test)
             self._networks = optimizer.evolve(self._networks)
 
         self._networks = sorted(self._networks, key=lambda x: x.accuracy, reverse=True)
         self.best_params = self._networks[0]
         logger.info("best accuracy: {}, best params: {}".format(self.best_params.accuracy, self.best_params.network))
-
+        return models
+    
     def _train_networks(self, x_train, y_train, x_test, y_test):
         """
         Method for networks training
@@ -51,11 +51,14 @@ class NeuroEvolution:
         :param y_test array: array with real values for test
         :return: None
         """
+        models = []
         pbar = tqdm(total=len(self._networks))
         for network in self._networks:
-            network.train(x_train, y_train, x_test, y_test)
+            model = network.train(x_train, y_train, x_test, y_test)
             pbar.update(1)
+            models.append(model)
         pbar.close()
+        return models
 
     def _get_average_accuracy(self, networks):
         """
