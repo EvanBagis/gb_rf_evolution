@@ -34,15 +34,17 @@ class gb_rf_evolution:
         self._networks = list(optimizer.create_population(self._population))
 
         models = []
+        params = []
         for i in range(self._generations - 1):
             trained = self._train_networks(x_train, y_train, x_test, y_test)
             models.extend(trained)
             self._networks = optimizer.evolve(self._networks)
+            params.extend(self._networks)
 
-        self._networks = sorted(self._networks, key=lambda x: x.accuracy, reverse=True)
-        self.best_params = self._networks[0]
+        params = sorted(params, key=lambda x: x.accuracy, reverse=True)
+        self.best_params = params[0]
         logger.info("best accuracy: {}, best params: {}".format(self.best_params.accuracy, self.best_params.network))
-        return models
+        return models, params
     
     def _train_networks(self, x_train, y_train, x_test, y_test):
         """
