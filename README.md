@@ -15,7 +15,7 @@ Example of usage:
 
 ```python
 
-from gb_rf_evolution import evolution
+from gb_rf_evolution import gb_evolution
 
 params = { 'boosting_type':['gbdt', 'dart'], 
            'num_leaves':[31, 41, 51], 
@@ -34,7 +34,7 @@ params = { 'boosting_type':['gbdt', 'dart'],
 ```python
 # x_train, y_train, x_test, y_test - prepared data
 
-search = evolution.gb_rf_evolution(generations = 10, population = 10, params=params)
+search = gb_evolution.GBevolution(generations = 10, population = 10, params=params)
 
 search.evolve(x_train, y_train, x_test, y_test)
 ```
