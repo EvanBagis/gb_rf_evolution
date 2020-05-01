@@ -35,16 +35,19 @@ class gb_rf_evolution:
 
         models = []
         params = []
+        scores = []
         for i in range(self._generations - 1):
-            trained = self._train_networks(x_train, y_train, x_test, y_test)
-            models.extend(trained)
+            generation_scores, trained = self._train_networks(x_train, y_train, x_test, y_test)
             self._networks = optimizer.evolve(self._networks)
+            models.extend(trained)
             params.extend(self._networks)
+            scores.extend(generation_scores)
+
 
         params = sorted(params, key=lambda x: x.accuracy, reverse=True)
         self.best_params = params[0]
         logger.info("best accuracy: {}, best params: {}".format(self.best_params.accuracy, self.best_params.network))
-        return models, params
+        return scores, models, params
     
     def _train_networks(self, x_train, y_train, x_test, y_test):
         """
@@ -57,13 +60,15 @@ class gb_rf_evolution:
         """
         
         models = []
+        scores = []
         pbar = tqdm(total=len(self._networks))
         for network in self._networks:
-            model = network.train(x_train, y_train, x_test, y_test)
+            r2, model = network.train(x_train, y_train, x_test, y_test)
             pbar.update(1)
             models.append(model)
+            scores.append(r2)
         pbar.close()
-        return models
+        return scores, models
 
     def _get_average_accuracy(self, networks):
         """
