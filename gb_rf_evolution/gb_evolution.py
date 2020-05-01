@@ -8,7 +8,7 @@ from logger import logger
 from gb_optimizer import Optimizer
 
 
-class gb_rf_evolution:
+class GBevolution:
     def __init__(self, generations, population, params):
         """
         :param generations int: number of generation
