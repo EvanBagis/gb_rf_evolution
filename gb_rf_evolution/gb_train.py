@@ -21,7 +21,9 @@ def compile_model(network):
                              boosting_type=network.get('boosting_type', 'gbdt'),
                              num_iterations=network.get('num_iterations', 100),
                              extra_trees=network.get('extra_trees', False),
-                             reg_sqrt= network.get('reg_sqrt', False))
+                             reg_sqrt= network.get('reg_sqrt', False),
+                             bagging_freq = network.get('bagging_freq', 1),
+                             bagging_fraction = network.get('bagging_fraction', 0.1))
     
     return model
 
